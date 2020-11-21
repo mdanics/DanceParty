@@ -4,7 +4,9 @@
   "description": "",
   "main": "compare.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "io": "node server.js",
+    "client": "npm run start --prefix client",
+    "start": "concurrently  \"npm run client \" \"npm run io\"             "
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/mdanics/hw7/issues"
   },
-  "homepage": "https://github.com/mdanics/hw7#readme"
+  "homepage": "https://github.com/mdanics/hw7#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "path": "^0.12.7",
+    "socket.io": "^3.0.3"
+  }
 }

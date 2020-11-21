@@ -1396,9 +1396,6 @@ export default function getScore(json1, json2, t){
     var p2 = json2['pose']['keypoints'];
     datapts(p1, lst1);
     datapts(p2, lst2);
-    document.write(lst1.length);
-    document.write(lst2.length);
     return compare(lst1, lst2, t);
 }
 
-document.write(getScore(david_tpose, matt_tpose, 30));

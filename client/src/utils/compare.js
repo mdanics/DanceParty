@@ -1,6 +1,6 @@
 var M = 10;
 
-david_tpose = {
+const david_tpose = {
     "pose": {
       "score": 0.7217992417076055,
       "keypoints": [
@@ -410,7 +410,7 @@ david_tpose = {
       ]
     ]
   }
-matt_tpose = {
+const matt_tpose = {
     "pose": {
       "score": 0.7694781817057553,
       "keypoints": [
@@ -856,7 +856,7 @@ matt_tpose = {
       ]
     ]
   }
-matt_w = {
+const matt_w = {
     "pose": {
       "score": 0.8556436563239378,
       "keypoints": [
@@ -1307,7 +1307,7 @@ var mp = {'nose': 0, 'leftEye': 1, 'rightEye': 2, 'leftEar': 3, 'rightEar': 4, '
 'leftWrist': 9, 'rightWrist': 10, 'leftHip': 11, 'rightHip': 12, 'leftKnee': 13, 'rightKnee': 14, 'leftAnkle': 15, 'rightAnkle': 16}
 
 function datapts(person, data){
-    for (j = 0; j < person.length; j++){
+    for (let j = 0; j < person.length; j++){
         data.push([person[j]['position']['x'], person[j]['position']['y']]);
     }
 }
@@ -1382,14 +1382,14 @@ function leg(hp1, k1, l1, hp2, k2, l2, t){
 
 function score(host, client){
     var i;
-    res = 0;
+    let res = 0;
     for (i = 0; i < host.length; i++){
         res = Math.max(compare(host[i], client), res);
     }
     return res;
 }
 
-function getScore(json1, json2, t){
+export default function getScore(json1, json2, t){
     var lst1 = [];
     var lst2 = [];
     var p1 = json1['pose']['keypoints'];

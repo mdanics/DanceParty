@@ -23,5 +23,11 @@ io.on("connection", (socket) => {
     console.log("Client disconnected");
 
   });
+
+  socket.on("test", (data) => {
+    console.log("test was fired and the data is:");
+    console.log(data);
+  })
+
 });
 server.listen(port, () => console.log(`Listening on port ${port}`));

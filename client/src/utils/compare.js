@@ -410,7 +410,6 @@ david_tpose = {
       ]
     ]
   }
-
 matt_tpose = {
     "pose": {
       "score": 0.7694781817057553,
@@ -857,7 +856,6 @@ matt_tpose = {
       ]
     ]
   }
-
 matt_w = {
     "pose": {
       "score": 0.8556436563239378,
@@ -1305,36 +1303,15 @@ matt_w = {
     ]
   }
 
-
-var person1 = david_tpose['pose']['keypoints'];
-var person2 = matt_tpose['pose']['keypoints'];
-var person3 = matt_w['pose']['keypoints'];
-var data1 = []
-var data2 = []
-var data3 = []
-var j;
-
-function getScore(json1, json2, t){
-    var lst1 = [];
-    datapts(json1, lst1);
-    datapts(json2, lst2);
-    return compare(lst1, lst2, t);
-}
+var mp = {'nose': 0, 'leftEye': 1, 'rightEye': 2, 'leftEar': 3, 'rightEar': 4, 'leftShoulder': 5, 'rightShoulder': 6, 'leftElbow': 7, 'rightElbow': 8, 
+'leftWrist': 9, 'rightWrist': 10, 'leftHip': 11, 'rightHip': 12, 'leftKnee': 13, 'rightKnee': 14, 'leftAnkle': 15, 'rightAnkle': 16}
 
 function datapts(person, data){
     for (j = 0; j < person.length; j++){
         data.push([person[j]['position']['x'], person[j]['position']['y']]);
-        mp
     }
 }
 
-datapts(person1, data1);
-datapts(person2, data2);
-datapts(person3, data3);
-
-
-var mp = {'nose': 0, 'leftEye': 1, 'rightEye': 2, 'leftEar': 3, 'rightEar': 4, 'leftShoulder': 5, 'rightShoulder': 6, 'leftElbow': 7, 'rightElbow': 8, 
-'leftWrist': 9, 'rightWrist': 10, 'leftHip': 11, 'rightHip': 12, 'leftKnee': 13, 'rightKnee': 14, 'leftAnkle': 15, 'rightAnkle': 16}
 function radians_to_degrees(radians)
 {
   var pi = Math.PI;
@@ -1353,20 +1330,6 @@ function compare(d1, d2, t){
     var v5 = leg(d1[mp['rightHip']], d1[mp['rightKnee']], d1[mp['rightAnkle']],  d2[mp['rightHip']], d2[mp['rightKnee']], d2[mp['rightAnkle']], t);
     return (((v1 + v2) / 4) * hw) + (v3 * sw) + (((v4 + v5) / 4) * lw);
 }
-
-
-document.write('dtpose vs. dtpose: ');
-document.write(compare(data1, data1, 30));
-document.write("<br>");
-document.write('dtpose vs. mtpose: ');
-document.write(compare(data1, data2, 30));
-document.write("<br>");
-document.write('dtpose vs. mwpose: ');
-document.write(compare(data1, data3, 30));
-document.write("<br>");
-document.write('mtpose vs. mwpose: ');
-document.write(compare(data2, data3, 30));
-document.write("<br>");
 
 function deg(x1, y1, x2, y2){
     var x = x2 - x1;
@@ -1426,3 +1389,16 @@ function score(host, client){
     return res;
 }
 
+function getScore(json1, json2, t){
+    var lst1 = [];
+    var lst2 = [];
+    var p1 = json1['pose']['keypoints'];
+    var p2 = json2['pose']['keypoints'];
+    datapts(p1, lst1);
+    datapts(p2, lst2);
+    document.write(lst1.length);
+    document.write(lst2.length);
+    return compare(lst1, lst2, 30);
+}
+
+document.write(getScore(david_tpose, matt_tpose, 30));

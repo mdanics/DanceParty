@@ -1306,7 +1306,6 @@ matt_w = {
   }
 
 
-
 var person1 = david_tpose['pose']['keypoints'];
 var person2 = matt_tpose['pose']['keypoints'];
 var person3 = matt_w['pose']['keypoints'];
@@ -1314,6 +1313,13 @@ var data1 = []
 var data2 = []
 var data3 = []
 var j;
+
+function getScore(json1, json2, t){
+    var lst1 = [];
+    datapts(json1, lst1);
+    datapts(json2, lst2);
+    return compare(lst1, lst2, t);
+}
 
 function datapts(person, data){
     for (j = 0; j < person.length; j++){

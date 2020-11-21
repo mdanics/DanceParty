@@ -1398,7 +1398,7 @@ function getScore(json1, json2, t){
     datapts(p2, lst2);
     document.write(lst1.length);
     document.write(lst2.length);
-    return compare(lst1, lst2, 30);
+    return compare(lst1, lst2, t);
 }
 
 document.write(getScore(david_tpose, matt_tpose, 30));

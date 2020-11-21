@@ -23,9 +23,6 @@ class App extends React.Component {
     socket.on('onScoreUpdate', (data) => {  
       //ToDo -> Given name of user, show special message to show someone got the points
       // 
-
-
-      
     })
        
 

@@ -4,10 +4,9 @@ import * as Cookies from "js-cookie";
 import "./meeting.css";
 import AgoraVideoCall from "../../components/AgoraVideoCall";
 import { AGORA_APP_ID } from "../../agora.config";
-import io from 'socket.io-client'
+import { socket, increaseScore } from '../../utils/socket';
 import MemberList from "./messageList.js"
 
-const socket = io("http://localhost:8080");
 
 class Meeting extends React.Component {
 
@@ -36,23 +35,15 @@ class Meeting extends React.Component {
 
     //Notify all connected members of my name and SocketId and score
     socket.emit("newMember", socket.id, Cookies.get("username"), this.state.score);
-
   }
-
-
-    increaseScore = ()=>{
-      //This funciton will be called after the result of the funciton is complete
-      socket.emit("newScore", socket.id, Cookies.get("username"),  1);
-    }
-
 
 
   constructor(props) {
     super(props);
   
     this.videoProfile = Cookies.get("videoProfile").split(",")[0] || "480p_4";
-    this.channel = Cookies.get("channel") || this.makeid(4);
-    this.username = Cookies.get("username") || "test";
+    this.channel = Cookies.get("channel") || "test";
+    this.username = Cookies.get("username") || this.makeid(4);
     this.transcode = Cookies.get("transcode") || "interop";
     this.attendeeMode = Cookies.get("attendeeMode") || "video";
     this.baseMode = Cookies.get("baseMode") || "avc";
@@ -74,7 +65,7 @@ class Meeting extends React.Component {
               src={require("../../assets/images/ag-logo.png")}
               alt=""
             />
-            <span onClick={this.increaseScore}>FriendBop</span>
+            <span onClick={() => {increaseScore(2)}}>FriendBop</span>
           </div>
           <div className="ag-header-msg">
             Room:&nbsp;<span id="room-name">{this.channel}</span>

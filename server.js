@@ -30,11 +30,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("newScore", (socketID, name, score ) => {
-    var newScore =  members.get(socketID).Score + score
-    var data = {Name:name, Score: newScore}
-    members.set(socketID,data)
-    var newList = [...members.values()]
-    io.emit("updateLeaderboard",newList)
+
+    if (members.has(socketID)) {
+      var newScore =  members.get(socketID).Score + score
+      var data = {Name:name, Score: newScore}
+      members.set(socketID,data)
+      var newList = [...members.values()]
+      io.emit("updateLeaderboard",newList)
+    } else {
+      console.log("error trying to get: " + socketID);
+    }
+
+
 
   })
 

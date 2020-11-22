@@ -1,5 +1,5 @@
 import getScoreHost from './compare';
-
+import { increaseScore } from "../utils/socket"
 
 export default {
 
@@ -46,6 +46,9 @@ export default {
 
         const score = getScoreHost(hostCachedPoses, participantPose, 30);
         console.log("SCORED", {score, hostPose, participantPose});
+
+        if (score > .5)
+          increaseScore(score * 100)
 
         if (participantPoses.length > 1) console.warn("PARTICIPANT MORE THAN 1 POSE")
         if (hostPoses.length > 1) console.warn("HOST MORE THAN 1 POSE")

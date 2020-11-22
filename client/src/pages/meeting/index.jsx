@@ -7,13 +7,14 @@ import { AGORA_APP_ID } from "../../agora.config";
 import MemberList from "./messageList.js"
 
 import io from 'socket.io-client'
-const socket = io("http://localhost:8080");
+const socket = io("https://2862e879752e.ngrok.io");
 
 class Meeting extends React.Component {
 
   state = {
     members: [],
-   score:0
+   score:0,
+
   }
 
     componentDidMount() {
@@ -38,6 +39,7 @@ class Meeting extends React.Component {
     // const username = Cookies.get("username");
       if (Cookies.get("username") !== "host") {
           console.log("socketID", socket.id);
+         
           socket.emit("newMember", socket.id, Cookies.get("username"));
       }
   }
@@ -45,6 +47,7 @@ class Meeting extends React.Component {
   increaseScore = (value) => {
     //This funciton will be called after the result of the funciton is complete
     socket.emit("newScore", socket.id, Cookies.get("username"),  value);
+   
   }
 
 
@@ -84,6 +87,7 @@ class Meeting extends React.Component {
         </div>
         
         <div className="ag-main">
+          <div id className="ui segment"> </div>
           <div className="ag-container">
             <AgoraVideoCall
               videoProfile={this.videoProfile}

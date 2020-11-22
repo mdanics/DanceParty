@@ -679,15 +679,6 @@ var hw = 0.6;
 var sw = 0.2;
 var lw = 0.2;
 
-function compare(d1, d2, t){
-    var v1 = hands(d1[mp['rightShoulder']], d1[mp['rightElbow']], d1[mp['rightWrist']],  d2[mp['rightShoulder']], d2[mp['rightElbow']], d2[mp['rightWrist']], t);
-    var v2 = hands(d1[mp['leftShoulder']], d1[mp['leftElbow']], d1[mp['leftWrist']],  d2[mp['leftShoulder']], d2[mp['leftElbow']], d2[mp['leftWrist']], t);
-    var v3 = shoulder(d1[mp['leftShoulder']], d1[mp['rightShoulder']], d2[mp['leftShoulder']],  d2[mp['rightShoulder']], t);
-    var v4 = leg(d1[mp['leftHip']], d1[mp['leftKnee']], d1[mp['leftAnkle']],  d2[mp['leftHip']], d2[mp['leftKnee']], d2[mp['leftAnkle']], t);
-    var v5 = leg(d1[mp['rightHip']], d1[mp['rightKnee']], d1[mp['rightAnkle']],  d2[mp['rightHip']], d2[mp['rightKnee']], d2[mp['rightAnkle']], t);
-    return (((v1 + v2) / 4) * hw) + (v3 * sw) + (((v4 + v5) / 4) * lw);
-}
-
 function deg(x1, y1, x2, y2){
     var x = x2 - x1;
     var y = y2 - y1;
@@ -753,29 +744,42 @@ function leg(hp1, k1, l1, hp2, k2, l2, t){
     return cmp(hp1, k1, hp2, k2, t) + cmp(k1, l1, k2, l2, t);
 }
 
+function compare(d1, d2, t){
+    var v1 = hands(d1[mp['rightShoulder']], d1[mp['rightElbow']], d1[mp['rightWrist']],  d2[mp['rightShoulder']], d2[mp['rightElbow']], d2[mp['rightWrist']], t);
+    var v2 = hands(d1[mp['leftShoulder']], d1[mp['leftElbow']], d1[mp['leftWrist']],  d2[mp['leftShoulder']], d2[mp['leftElbow']], d2[mp['leftWrist']], t);
+    var v3 = shoulder(d1[mp['leftShoulder']], d1[mp['rightShoulder']], d2[mp['leftShoulder']],  d2[mp['rightShoulder']], t);
+    var v4 = leg(d1[mp['leftHip']], d1[mp['leftKnee']], d1[mp['leftAnkle']],  d2[mp['leftHip']], d2[mp['leftKnee']], d2[mp['leftAnkle']], t);
+    var v5 = leg(d1[mp['rightHip']], d1[mp['rightKnee']], d1[mp['rightAnkle']],  d2[mp['rightHip']], d2[mp['rightKnee']], d2[mp['rightAnkle']], t);
+    return (((v1 + v2) / 4) * hw) + (v3 * sw) + (((v4 + v5) / 4) * lw);
+}
+
 function getHostData(hostList){
    var k = 0;
-   res = [];
+   var res = [];
    for (k = 0; k < hostList.length; k++){
-     var p = hostList[i]['pose']['keypoints'];
+     var p = hostList[k]['pose']['keypoints'];
      var lst = [];
      datapts(p, lst);
      res.push(lst);
    }
+
    return res
 }
 
-function getScoreHost(host, client, t){
+export default function getScoreHost(host, client, t){
     var i;
-    let res = 0;
-    host = getHostData(host);
-    for (i = 0; i < host.length; i++){
-        res = Math.max(compare(host[i], client, t), res);
+    var res = 0;
+    let hosts = getHostData(host);
+    let lst = []
+    var j = datapts(client['pose']['keypoints'], lst);
+    console.log("getscorehost lst", {lst, host, client})
+    for (i = 0; i < hosts.length; i++){
+        res = Math.max(compare(hosts[i], lst, t), res);
     }
     return res;
 }
 
-export default function getScore(json1, json2, t){
+function getScore(json1, json2, t){
     var lst1 = [];
     var lst2 = [];
     var p1 = json1['pose']['keypoints'];

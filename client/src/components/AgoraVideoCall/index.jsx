@@ -6,6 +6,7 @@ import './canvas.css'
 import '../../assets/fonts/css/icons.css'
 import PoseDetection  from  '../../utils/PoseDetection';
 
+
 const tile_canvas = {
   '1': ['span 12/span 24'],
   '2': ['span 12/span 12/13/25', 'span 12/span 12/13/13'],
@@ -31,7 +32,8 @@ class AgoraCanvas extends React.Component {
     this.state = {
       displayMode: 'pip',
       streamList: [],
-      readyState: false
+      readyState: false,
+      gameActive: false,
     }
   }
 
@@ -290,8 +292,28 @@ class AgoraCanvas extends React.Component {
   test = (e) => {
     console.log("streams", this.state.streamList)
 
-    PoseDetection.detectPose(document.getElementById("videomatt"));
 
+    // only do comparison if you are not host
+
+    if (this.props.uid !== "host") {
+       // const host = PoseDetection.detectPose(document.getElementById("videohost"));
+       //
+       // const local = PoseDetection.detectPose(document.getElementById("video" + this.props.uid));
+
+      PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + this.props.uid));
+
+    } else {
+      alert("You are the host, you can't compare to yourself ")
+    }
+  }
+
+  togglePlay = (e) => {
+    if (!this.state.gameActive) {
+      alert("TODO - start game");
+    } else {
+      alert("TODO - End game");
+    }
+    this.setState({gameActive: !this.state.gameActive})
   }
 
   hideRemote = (e) => {
@@ -376,7 +398,16 @@ class AgoraCanvas extends React.Component {
         onClick={this.test}
         className={this.state.streamList.length > 4 ? "ag-btn displayModeBtn disabled" : "ag-btn displayModeBtn"}
         title="Test">
-        <i className="ag-icon ag-icon-switch-display"></i>
+        <i className="fas fa-bug"></i>
+      </span>
+    )
+
+    const playBtn = (
+      <span
+        onClick={this.togglePlay}
+        className="ag-btn displayModeBtn"
+        title="Play">
+        <i className={this.state.gameActive ? "fas fa-stop" : "fas fa-play"}></i>
       </span>
     )
 
@@ -403,9 +434,7 @@ class AgoraCanvas extends React.Component {
           {exitBtn}
           {videoControlBtn}
           {audioControlBtn}
-          {/* <span className="ag-btn shareScreenBtn" title="Share Screen">
-                        <i className="ag-icon ag-icon-screen-share"></i>
-                    </span> */}
+          {(this.props.uid === "host") ? playBtn : null}
           {switchDisplayBtn}
           {testBtn}
           {hideRemoteBtn}

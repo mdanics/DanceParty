@@ -14,13 +14,12 @@ class Meeting extends React.Component {
 
   state = {
     members: [],
-   score:0
+   score:0,
+
   }
 
     componentDidMount() {
       const username = Cookies.get("username");
-
-
         //Logic when someone joins
       socket.on('onJoin', (data) => {
           //ToDo -> Display special message, update score board
@@ -41,7 +40,7 @@ class Meeting extends React.Component {
     socket.on('updateLeaderboard', (data) => {
       //ToDo -> Given name of user, show special message to show someone got the points
       this.setState({members:data})
-
+    
     })
 
 
@@ -96,6 +95,7 @@ class Meeting extends React.Component {
         </div>
         
         <div className="ag-main">
+          <div id className="ui segment"> </div>
           <div className="ag-container">
             <AgoraVideoCall
               videoProfile={this.videoProfile}

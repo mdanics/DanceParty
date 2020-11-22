@@ -68,66 +68,14 @@ class Index extends React.Component {
         <div className="ag-main">
           <section className="login-wrapper">
             <div className="login-header">
-              <img src={require('../../assets/images/ag-logo.png')} alt="" />
-              <p className="login-title">FriendBop</p>
+              <img src={require('../../assets/images/dance-party-logo.png')} alt="" />
               <p className="login-subtitle">Enjoy a dance, Enjoy a laugh</p>
             </div>
             <div className="login-body">
               <div className="columns">
                 <div className="column is-12">
-                  <InputChannel onChange={this.handleChannel} placeholder="Input a room name here"></InputChannel>
-                  <InputChannel onChange={this.handleName} placeholder="Input username (host if you want to be the host)"></InputChannel>
-                </div>
-              </div>
-              <div className="columns">
-                <div className="column is-7">
-                  <BaseOptions
-                    onChange={val => this.setState({ baseMode: val })}>
-                  </BaseOptions>
-                </div>
-                <div className="column is-5">
-                  <AdvancedOptions
-                    onRadioChange={val => this.setState({ transcode: val })}
-                    onSelectChange={val => this.setState({ videoProfile: val })}>
-                  </AdvancedOptions>
-                </div>
-              </div>
-              <div className="columns">
-                <div className="column">
-                  <div id="attendeeMode" className="control">
-                    <label className="radio">
-                      <input onChange={e => this.setState({ attendeeMode: e.target.value })}
-                        value="video" type="radio"
-                        name="attendee" defaultChecked />
-                      <span className="radio-btn">
-                      </span>
-                      <span className="radio-img video">
-                      </span>
-                      <span className="radio-msg">Video Call : join with video call</span>
-                    </label>
-                    <br />
-                    <label className="radio">
-                      <input onChange={e => this.setState({ attendeeMode: e.target.value })}
-                        value="audio-only" type="radio"
-                        name="attendee" />
-                      <span className="radio-btn">
-                      </span>
-                      <span className="radio-img audio">
-                      </span>
-                      <span className="radio-msg">Audio-only : join with audio call</span>
-                    </label>
-                    <br />
-                    <label className="radio">
-                      <input onChange={e => this.setState({ attendeeMode: e.target.value })}
-                        value="audience" type="radio"
-                        name="attendee" />
-                      <span className="radio-btn">
-                      </span>
-                      <span className="radio-img audience">
-                      </span>
-                      <span className="radio-msg">Audience : join as an audience</span>
-                    </label>
-                  </div>
+                  <InputChannel onChange={this.handleChannel} placeholder="Room ID"></InputChannel>
+                  <InputChannel onChange={this.handleName} placeholder="Username (host to be host)"></InputChannel>
                 </div>
               </div>
             </div>
@@ -135,12 +83,8 @@ class Index extends React.Component {
               <a id="joinBtn"
                 onClick={this.handleJoin}
                 disabled={!this.state.joinBtn}
-                className="ag-rounded button is-info">Join
-                  </a>
-                           <a id="joinBtn"
-                onClick={() => {PoseDetection.singleImg();}}
-                className="ag-rounded button is-info">Test Btn
-                  </a>
+                className="ag-rounded button is-info">Let's get Dancing!
+              </a>
             </div>
           </section>
         </div>
@@ -231,134 +175,6 @@ class InputChannel extends React.Component {
         </span>
         <div className="validate-msg">
           {this.state.errorMsg}
-        </div>
-      </div>
-    )
-  }
-}
-
-class BaseOptions extends React.Component {
-  constructor(props) {
-    super(props)
-    this._options = [
-      {
-        label: 'Agora Video Call',
-        value: 'avc',
-        content: 'One to one and group calls'
-      },
-      {
-        label: 'Agora Live',
-        value: 'al',
-        content: 'Enabling real-time interactions between the host and the audience'
-      }
-    ]
-    this.state = {
-      active: false,
-      message: 'Agora Video Call',
-
-    }
-  }
-
-  handleSelect = (item) => {
-    let msg = item.label
-    let val = item.value
-    this.setState({
-      'message': msg,
-      'active': false
-    })
-    this.props.onChange(val)
-  }
-
-  render() {
-    const options = this._options.map((item, index) => {
-      return (
-        <div className="dropdown-item"
-          key={index}
-          onClick={(e) => this.handleSelect(item, e)}>
-          <p>{item.label}</p>
-          <hr />
-          <p>{item.content}</p>
-        </div>
-      )
-    })
-
-    return (
-      <div className={this.state.active ? 'dropdown is-active' : 'dropdown'}>
-        <div className="dropdown-trigger"
-          onClick={() => this.setState({ 'active': !this.state.active })}>
-          <a id="baseMode" className="ag-rounded button" aria-haspopup="true" aria-controls="baseModeOptions">
-            <span id="baseOptionLabel">{this.state.message}</span>
-            <span className="icon is-small">
-              <i className="ag-icon ag-icon-arrow-down" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-        <div className="dropdown-menu" id="baseModeOptions" role="menu">
-          <div className="dropdown-content">
-            {options}
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
-
-class AdvancedOptions extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      active: false,
-    }
-  }
-
-  handleRadio = (e) => {
-    this.props.onRadioChange(e.target.value)
-  }
-
-  handleSelect = (e) => {
-    this.props.onSelectChange(e.target.value)
-  }
-
-  render() {
-    const options = Object.entries(RESOLUTION_ARR).map((item, index) => {
-      return (
-        <option key={index} value={item[0].split(",")[0]}>{item[1][0]}x {item[1][1]}, {item[1][2]}fps, {item[1][3]}kbps</option>
-      )
-    })
-    return (
-      <div className={this.state.active ? 'dropdown is-active' : 'dropdown'}>
-        <div className="dropdown-trigger"
-          onClick={() => this.setState({ 'active': !this.state.active })}>
-          <a id="advancedProfile" className="ag-rounded button" aria-haspopup="true" aria-controls="advancedOptions">
-            <span>Advanced</span>
-          </a>
-        </div>
-        <div className="dropdown-menu" id="advancedOptions" role="menu">
-          <div className="dropdown-content">
-            <div className="dropdown-item">
-              <div className="control">
-                <label className="radio">
-                  <input value="" type="radio" name="transcode" onChange={this.handleRadio} />
-                  <span>VP8-only</span>
-                </label>
-                <label className="radio">
-                  <input value="interop" type="radio" defaultChecked onChange={this.handleRadio} name="transcode" />
-                  <span>VP8 &amp; H264</span>
-                </label>
-                <label className="radio">
-                  <input value="h264_interop" type="radio" onChange={this.handleRadio} name="transcode" />
-                  <span>H264-only</span>
-                </label>
-              </div>
-            </div>
-            <div className="dropdown-item">
-              <div className="select is-rounded">
-                <select onChange={this.handleSelect} defaultValue="460p_4" id="videoProfile" className="ag-rounded is-clipped">
-                  {options}
-                </select>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     )

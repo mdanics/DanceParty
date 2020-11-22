@@ -7,6 +7,7 @@ import { AGORA_APP_ID } from "../../agora.config";
 import MemberList from "./messageList.js"
 
 import io from 'socket.io-client'
+import PoseDetection from "../../utils/PoseDetection";
 const socket = io("http://localhost:8080");
 
 class Meeting extends React.Component {
@@ -17,6 +18,9 @@ class Meeting extends React.Component {
   }
 
     componentDidMount() {
+      const username = Cookies.get("username");
+
+
         //Logic when someone joins
       socket.on('onJoin', (data) => {
           //ToDo -> Display special message, update score board
@@ -27,18 +31,26 @@ class Meeting extends React.Component {
       //ToDo -> remove score from score board
     })
 
+      socket.on('gameStarted', () => {
+        if (username !== 'host') {
+            PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + username), this.increaseScore);
+        }
+      })
+
     // Logic to update a score for a particular user
     socket.on('updateLeaderboard', (data) => {
       //ToDo -> Given name of user, show special message to show someone got the points
       this.setState({members:data})
-    
+
     })
+
+
 
     //Notify all connected members of my name and SocketId and score
     // const username = Cookies.get("username");
-      if (Cookies.get("username") !== "host") {
+      if (username !== "host") {
           console.log("socketID", socket.id);
-          socket.emit("newMember", socket.id, Cookies.get("username"));
+          socket.emit("newMember", socket.id, username);
       }
   }
 
@@ -75,7 +87,7 @@ class Meeting extends React.Component {
               src={require("../../assets/images/ag-logo.png")}
               alt=""
             />
-            <span onClick={() => {this.increaseScore(2)}}>FriendBop</span>
+            <span onClick={() => {this.increaseScore(2)}}>DanceParty</span>
           </div>
           <div className="ag-header-msg">
             Room:&nbsp;<span id="room-name">{this.channel}</span>

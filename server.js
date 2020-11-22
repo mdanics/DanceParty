@@ -27,7 +27,7 @@ class Member {
 }
 
 
-
+let updateScoreboardInterval;
 let members = new Map()
 
 io.on("connection", (socket) => {
@@ -77,10 +77,29 @@ io.on("connection", (socket) => {
 
 
   socket.on('start', () => {
-
-    setInterval(updateScoreboard,5000);
+    updateScoreboardInterval = setInterval(updateScoreboard,3000);
     socket.emit('gameStarted');
   })
+
+  socket.on('restart', () => {
+    members.clear();
+    clearInterval(updateScoreboardInterval);
+    refreshLeaderboard();
+  })
+
+  socket.on('pause', () => {
+    clearInterval(updateScoreboardInterval);
+    socket.emit('gamePaused');
+  })
+
+  socket.on('clear', () => {
+    members.forEach(member => {
+      member.currentScore = 0;
+      member.totalScore = 0;
+    })
+    refreshLeaderboard();
+  })
+
 
   socket.on("newMember", (socketID, name) => {
     // socketId: {name: name, score:score}

@@ -33,7 +33,7 @@ class AgoraCanvas extends React.Component {
     this.shareClient = {}
     this.shareStream = {}
     this.state = {
-      displayMode: 'pip',
+      displayMode: 'tile',
       streamList: [],
       readyState: false,
       gameActive: false,
@@ -314,10 +314,11 @@ class AgoraCanvas extends React.Component {
     if (!this.state.gameActive) {
       socket.emit("start");
     } else {
-      alert("TODO - End game");
+      socket.emit("pause");
     }
     this.setState({gameActive: !this.state.gameActive})
   }
+
 
   hideRemote = (e) => {
     if (e.currentTarget.classList.contains('disabled') || this.state.streamList.length <= 1) {
@@ -410,7 +411,25 @@ class AgoraCanvas extends React.Component {
         onClick={this.togglePlay}
         className="ag-btn displayModeBtn"
         title="Play">
-        <i className={this.state.gameActive ? "fas fa-stop" : "fas fa-play"}></i>
+        <i className={this.state.gameActive ? "fas fa-pause" : "fas fa-play"}></i>
+      </span>
+    )
+
+    const resetBtn = (
+      <span
+        onClick={() => {socket.emit("restart");}}
+        className="ag-btn displayModeBtn"
+        title="Reset Game">
+        <i className="fas fa-ban"></i>
+      </span>
+    )
+
+    const clearBtn = (
+      <span
+        onClick={() => {socket.emit("clear")}}
+        className="ag-btn displayModeBtn"
+        title="Clear">
+        <i className="fas fa-eraser"></i>
       </span>
     )
 
@@ -431,16 +450,15 @@ class AgoraCanvas extends React.Component {
       </span>
     )
 
+    const hostControls = [playBtn, resetBtn, clearBtn]
+
     return (
       <div id="ag-canvas" style={style}>
         <div className="ag-btn-group">
-          {exitBtn}
+          {(this.props.uid === "host") ? [...hostControls] : null}
           {videoControlBtn}
           {audioControlBtn}
-          {(this.props.uid === "host") ? playBtn : null}
           {switchDisplayBtn}
-          {testBtn}
-          {hideRemoteBtn}
         </div>
       </div>
     )

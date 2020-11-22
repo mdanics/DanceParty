@@ -51,6 +51,7 @@ class Meeting extends React.Component {
           console.log("socketID", socket.id);
           socket.emit("newMember", socket.id, username);
       }
+
   }
 
   increaseScore = (value) => {

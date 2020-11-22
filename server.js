@@ -62,7 +62,7 @@ io.on("connection", (socket) => {
 
     const sortedListOfMembers = [...members.values()].sort((a, b) => b.currentScore - a.currentScore);
 
-    sortedListOfMembers[0].totalScore += 100;
+    sortedListOfMembers[0].totalScore += 10;
     // sortedListOfMembers[1].totalScore += 50;
     // sortedListOfMembers[2].totalScore += 25;
 

@@ -3,11 +3,9 @@ import CommentDetail from './CommentDetail';
 import './leaderboard.css';
 const MessageList = (props) => {
     if(props.msglist.length != 0){
-    console.log(props)
 
 
   const images = props.msglist.map(msg => {
-    console.log(document.querySelector("#ag-item-"+msg.name));
     if(document.querySelector("#ag-item-"+msg.name)!=null){
         var el = document.createElement("span");
         el.innerHTML = `${msg.totalScore}`
@@ -21,7 +19,6 @@ const MessageList = (props) => {
         el.style.borderRadius="10px";
         el.style.paddingLeft="8px";
         el.style.paddingRight="8px";
-        console.log("i am an andix");
         document.querySelector("#player_"+msg.name).appendChild(el)
     }
 

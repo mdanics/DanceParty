@@ -8,7 +8,7 @@ import MemberList from "./messageList.js"
 
 import io from 'socket.io-client'
 import PoseDetection from "../../utils/PoseDetection";
-const socket = io("https://wise-horse-86.loca.lt");
+const socket = io("http://localhost:8080");
 
 class Meeting extends React.Component {
 
@@ -108,6 +108,7 @@ class Meeting extends React.Component {
               appId={this.appId}
               uid={this.username}
               increaseScore={this.increaseScore}
+              socket={socket}
             />
           </div>
         </div>

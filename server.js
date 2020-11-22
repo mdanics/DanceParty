@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
   socket.on('start', () => {
     console.log("starting game");
     updateScoreboardInterval = setInterval(updateScoreboard,3000);
-    socket.emit('gameStarted');
+    io.emit('gameStarted');
   })
 
   socket.on('restart', () => {
@@ -90,7 +90,7 @@ io.on("connection", (socket) => {
 
   socket.on('pause', () => {
     clearInterval(updateScoreboardInterval);
-    socket.emit('gamePaused');
+    io.emit('gamePaused');
   })
 
   socket.on('clear', () => {

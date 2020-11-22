@@ -6,9 +6,6 @@ import './canvas.css'
 import '../../assets/fonts/css/icons.css'
 import PoseDetection  from  '../../utils/PoseDetection';
 
-import io from 'socket.io-client'
-const socket = io("https://wise-horse-86.loca.lt");
-
 
 const tile_canvas = {
   '1': ['span 12/span 24'],
@@ -311,9 +308,9 @@ class AgoraCanvas extends React.Component {
 
   togglePlay = (e) => {
     if (!this.state.gameActive) {
-      socket.emit("start");
+      this.props.socket.emit("start");
     } else {
-      socket.emit("pause");
+      this.props.socket.emit("pause");
     }
     this.setState({gameActive: !this.state.gameActive})
   }
@@ -416,7 +413,7 @@ class AgoraCanvas extends React.Component {
 
     const resetBtn = (
       <span
-        onClick={() => {socket.emit("restart");}}
+        onClick={() => {this.props.socket.emit("restart");}}
         className="ag-btn displayModeBtn"
         title="Reset Game">
         <i className="fas fa-ban"></i>
@@ -425,7 +422,7 @@ class AgoraCanvas extends React.Component {
 
     const clearBtn = (
       <span
-        onClick={() => {socket.emit("clear")}}
+        onClick={() => {this.props.socket.emit("clear")}}
         className="ag-btn displayModeBtn"
         title="Clear">
         <i className="fas fa-eraser"></i>

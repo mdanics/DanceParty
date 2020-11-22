@@ -84,19 +84,18 @@ class Meeting extends React.Component {
           <div className="ag-header-lead">
             <img
               className="header-logo"
-              src={require("../../assets/images/ag-logo.png")}
+              src={require("../../assets/images/dance-party-logo.png")}
               alt=""
             />
-            <span onClick={() => {this.increaseScore(2)}}>DanceParty</span>
           </div>
           <div className="ag-header-msg">
-            Room:&nbsp;<span id="room-name">{this.channel}</span>
+            Room:&nbsp;<span id="room-name">{this.channel}</span><br/>
+            User:&nbsp;<span id="room-name">{this.username}</span>
           </div>
           
         </div>
         
         <div className="ag-main">
-          <div id className="ui segment"> </div>
           <div className="ag-container">
             <AgoraVideoCall
               videoProfile={this.videoProfile}

@@ -3,8 +3,6 @@ import * as Cookies from 'js-cookie'
 
 import '../../assets/fonts/css/icons.css'
 import Validator from '../../utils/Validator'
-import PoseDetection from '../../utils/PoseDetection'
-import { RESOLUTION_ARR } from '../../utils/Settings'
 import './index.css'
 
 
@@ -83,7 +81,7 @@ class Index extends React.Component {
               <a id="joinBtn"
                 onClick={this.handleJoin}
                 disabled={!this.state.joinBtn}
-                className="ag-rounded button is-info">Let's get Dancing!
+                className="ag-rounded button is-info">Get Dancing!
               </a>
             </div>
           </section>

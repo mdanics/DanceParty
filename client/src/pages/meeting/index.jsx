@@ -2,7 +2,7 @@ import React from "react";
 import * as Cookies from "js-cookie";
 
 import "./meeting.css";
-import AgoraVideoCall from "../../components/AgoraVideoCall";
+import GroupCalling from "../../components/GroupCalling";
 import { AGORA_APP_ID } from "../../agora.config";
 import MemberList from "./messageList.js"
 
@@ -97,7 +97,7 @@ class Meeting extends React.Component {
         
         <div className="ag-main">
           <div className="ag-container">
-            <AgoraVideoCall
+            <GroupCalling
               videoProfile={this.videoProfile}
               channel={this.channel}
               username={this.username}

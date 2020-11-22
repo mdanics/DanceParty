@@ -6,6 +6,9 @@ import './canvas.css'
 import '../../assets/fonts/css/icons.css'
 import PoseDetection  from  '../../utils/PoseDetection';
 
+import io from 'socket.io-client'
+const socket = io("http://localhost:8080");
+
 
 const tile_canvas = {
   '1': ['span 12/span 24'],
@@ -19,7 +22,7 @@ const tile_canvas = {
 
 
 /**
- * @prop appId uid
+ * @prop appId uid increaseScore
  * @prop transcode attendeeMode videoProfile channel baseMode
  */
 class AgoraCanvas extends React.Component {
@@ -300,7 +303,7 @@ class AgoraCanvas extends React.Component {
        //
        // const local = PoseDetection.detectPose(document.getElementById("video" + this.props.uid));
 
-      PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + this.props.uid));
+      PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + this.props.uid), this.props.increaseScore);
 
     } else {
       alert("You are the host, you can't compare to yourself ")
@@ -309,7 +312,7 @@ class AgoraCanvas extends React.Component {
 
   togglePlay = (e) => {
     if (!this.state.gameActive) {
-      alert("TODO - start game");
+      socket.emit("start");
     } else {
       alert("TODO - End game");
     }

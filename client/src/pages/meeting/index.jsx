@@ -4,9 +4,10 @@ import * as Cookies from "js-cookie";
 import "./meeting.css";
 import AgoraVideoCall from "../../components/AgoraVideoCall";
 import { AGORA_APP_ID } from "../../agora.config";
-import { socket, increaseScore } from '../../utils/socket';
 import MemberList from "./messageList.js"
 
+import io from 'socket.io-client'
+const socket = io("http://localhost:8080");
 
 class Meeting extends React.Component {
 
@@ -15,7 +16,7 @@ class Meeting extends React.Component {
    score:0
   }
 
-    componentWillMount = () => {
+    componentDidMount() {
         //Logic when someone joins
       socket.on('onJoin', (data) => {
           //ToDo -> Display special message, update score board
@@ -34,7 +35,16 @@ class Meeting extends React.Component {
     })
 
     //Notify all connected members of my name and SocketId and score
-    socket.emit("newMember", socket.id, Cookies.get("username"), this.state.score);
+    // const username = Cookies.get("username");
+      if (Cookies.get("username") !== "host") {
+          console.log("socketID", socket.id);
+          socket.emit("newMember", socket.id, Cookies.get("username"));
+      }
+  }
+
+  increaseScore = (value) => {
+    //This funciton will be called after the result of the funciton is complete
+    socket.emit("newScore", socket.id, Cookies.get("username"),  value);
   }
 
 
@@ -65,7 +75,7 @@ class Meeting extends React.Component {
               src={require("../../assets/images/ag-logo.png")}
               alt=""
             />
-            <span onClick={() => {increaseScore(2)}}>FriendBop</span>
+            <span onClick={() => {this.increaseScore(2)}}>FriendBop</span>
           </div>
           <div className="ag-header-msg">
             Room:&nbsp;<span id="room-name">{this.channel}</span>
@@ -84,6 +94,7 @@ class Meeting extends React.Component {
               baseMode={this.baseMode}
               appId={this.appId}
               uid={this.username}
+              increaseScore={this.increaseScore}
             />
           </div>
         </div>

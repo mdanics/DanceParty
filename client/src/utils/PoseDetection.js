@@ -1,10 +1,10 @@
 import getScoreHost from './compare';
-import { increaseScore } from "../utils/socket"
+// import { increaseScore } from "../utils/socket"
 
 export default {
 
 
-  poseComparison(hostVideoElement, participantVideoElement) {
+  poseComparison(hostVideoElement, participantVideoElement, increaseScore) {
     console.log("comparing...");
     let hostPoses;
     let hostCachedPoses = [];
@@ -30,7 +30,7 @@ export default {
 
       hostCachedPoses[currIndex] = results[0]
 
-      currIndex = (currIndex + 1) % 100
+      currIndex = (currIndex + 1) % 50
     });
 
     participantPoseNet.on("pose", (results) => {
@@ -47,8 +47,7 @@ export default {
         const score = getScoreHost(hostCachedPoses, participantPose, 30);
         console.log("SCORED", {score, hostPose, participantPose});
 
-        if (score > .5)
-          increaseScore(score * 100)
+        increaseScore(score)
 
         if (participantPoses.length > 1) console.warn("PARTICIPANT MORE THAN 1 POSE")
         if (hostPoses.length > 1) console.warn("HOST MORE THAN 1 POSE")

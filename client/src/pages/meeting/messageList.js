@@ -5,12 +5,12 @@ const MessageList = (props) => {
     if(props.msglist.length != 0){
     console.log(props)
   const images = props.msglist.map(msg => {
-    return <div className="ui segment "><CommentDetail name = {msg.Name} score={msg.Score}/></div> 
+    return <div className="ui segment "><CommentDetail name = {msg.name} score={msg.totalScore}/></div>
   });
 
   return( 
   
-  <div id="leaderBoard" className="ui segment"> 
+  <div id="leaderBoard" className="ui segment">
   <center> <h1 id="leaderBoardText"> LeaderBoard </h1></center>
   {images}
   

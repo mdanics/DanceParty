@@ -3,6 +3,7 @@ import * as Cookies from 'js-cookie'
 
 import '../../assets/fonts/css/icons.css'
 import Validator from '../../utils/Validator'
+import PoseDetection from '../../utils/PoseDetection'
 import { RESOLUTION_ARR } from '../../utils/Settings'
 import './index.css'
 
@@ -17,8 +18,7 @@ class Index extends React.Component {
       baseMode: 'avc',
       transcode: 'interop',
       attendeeMode: 'video',
-      videoProfile: '480p_4',
-
+      videoProfile: '360p_4',
     }
   }
 
@@ -136,6 +136,10 @@ class Index extends React.Component {
                 onClick={this.handleJoin}
                 disabled={!this.state.joinBtn}
                 className="ag-rounded button is-info">Join
+                  </a>
+                           <a id="joinBtn"
+                onClick={() => {PoseDetection.singleImg();}}
+                className="ag-rounded button is-info">Test Btn
                   </a>
             </div>
           </section>

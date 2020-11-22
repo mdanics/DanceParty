@@ -77,6 +77,7 @@ io.on("connection", (socket) => {
 
 
   socket.on('start', () => {
+    console.log("starting game");
     updateScoreboardInterval = setInterval(updateScoreboard,3000);
     socket.emit('gameStarted');
   })

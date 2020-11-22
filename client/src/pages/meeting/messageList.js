@@ -17,7 +17,7 @@ const MessageList = (props) => {
         el.style.top="5px"
         el.style.right="10px"
         el.style.zIndex="99"
-        el.style.backgroundColor="#00000094";
+        el.style.backgroundColor="black";
         el.style.borderRadius="10px";
         el.style.paddingLeft="8px";
         el.style.paddingRight="8px";

@@ -8,7 +8,7 @@ import MemberList from "./messageList.js"
 
 import io from 'socket.io-client'
 import PoseDetection from "../../utils/PoseDetection";
-const socket = io("http://localhost:8080");
+const socket = io("https://wise-horse-86.loca.lt");
 
 class Meeting extends React.Component {
 
@@ -31,6 +31,7 @@ class Meeting extends React.Component {
     })
 
       socket.on('gameStarted', () => {
+        console.log("STARTING GAME!");
         if (username !== 'host') {
             PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + username), this.increaseScore);
         }

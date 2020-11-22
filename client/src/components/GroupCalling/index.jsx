@@ -7,7 +7,7 @@ import '../../assets/fonts/css/icons.css'
 import PoseDetection  from  '../../utils/PoseDetection';
 
 import io from 'socket.io-client'
-const socket = io("http://localhost:8080");
+const socket = io("https://wise-horse-86.loca.lt");
 
 
 const tile_canvas = {
@@ -302,7 +302,6 @@ class AgoraCanvas extends React.Component {
        // const host = PoseDetection.detectPose(document.getElementById("videohost"));
        //
        // const local = PoseDetection.detectPose(document.getElementById("video" + this.props.uid));
-
       PoseDetection.poseComparison(document.getElementById("videohost"), document.getElementById("video" + this.props.uid), this.props.increaseScore);
 
     } else {

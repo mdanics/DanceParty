@@ -15,18 +15,38 @@ const io = require('socket.io')(server, {
     origin: '*',
   }
 });
+
+let members = new Map()
 io.on("connection", (socket) => {
   console.log("New client connected");
 
 
   socket.on("disconnect", () => {
+    //When the member leaves, we want to update all the users
+    members.delete(socket.id)
     console.log("Client disconnected");
-
+    var newList = [...members.values()]
+    io.emit("updateLeaderboard",newList)
   });
 
-  socket.on("test", (data) => {
-    console.log("test was fired and the data is:");
-    console.log(data);
+  socket.on("newScore", (socketID, name, score ) => {
+    var newScore =  members.get(socketID).Score + score
+    var data = {Name:name, Score: newScore}
+    members.set(socketID,data)
+    var newList = [...members.values()]
+    io.emit("updateLeaderboard",newList)
+
+  })
+
+  socket.on("newMember", (socketID, name, score ) => {
+    // socketId: {name: name, score:score}
+    var data = {Name:name, Score: score}
+    members.set(socketID,data)
+  
+    //Once the dictionary is updated, emit to all connected memebrs 
+    var newList = [...members.values()]
+    io.emit("updateLeaderboard",newList)
+
   })
 
 });

@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+/src/agora.config.js
+
+
 # testing
 /coverage
 

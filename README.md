@@ -1,6 +1,6 @@
 # DanceParty - Hack Western 7
 
-## :tada: WINNER :trophy: of Telus Mental Health award AND 2nd Place over all at HackWestern7 :trophy:
+## :tada: WINNER :trophy: of Telus Mental Health award AND 2nd Place over all at HackWestern7
 
 ## Inspiration
 The pandemic has ruined our collective health. Since its onset, rates of depression amongst teens and adults alike have risen to unprecedented levels. In a world where we are told for our own safety to keep distance from those who we cherish, how do we maintain these relationships and with it, our wellbeing? 
